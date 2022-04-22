@@ -1,5 +1,7 @@
 package com.kingcast255.hextechmod.common.block.entity;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -14,20 +16,22 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class ArcanePedestalBlockEntity extends BlockEntity {
+	
+	
+	private final BaseItemStackHandler inventory;
 
 	public ArcanePedestalBlockEntity(BlockPos p_155229_, BlockState p_155230_) {
 		super(ModBlockEntities.ARCANE_PEDESTAL.get(), p_155229_, p_155230_);
-		
+		this.inventory = createInventoryHandler(this::markDirtyAndDispatch);
 	}
 	
-	private final ItemStackHandler itemHandler = new ItemStackHandler(1);
-
+	
 	private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 	
+
 	
 	
-	
-	
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
@@ -50,12 +54,14 @@ public class ArcanePedestalBlockEntity extends BlockEntity {
 		lazyItemHandler = LazyOptional.of(() -> itemHandler);	
 	}
 	
+	
+	
 	public ItemStackHandler getInventory(){
 		return itemHandler;
 	}
 	
 	
-	
+
 	
 	
 	@Override
@@ -63,6 +69,17 @@ public class ArcanePedestalBlockEntity extends BlockEntity {
 		tag.put("inventory", itemHandler.serializeNBT());
 		super.saveAdditional(tag);
 	}
+	
+	
+	
+	
+	@Override
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
+		itemHandler.deserializeNBT(nbt.getCompound("inventory"));
+	}
+	
+	
 	
 	
 	

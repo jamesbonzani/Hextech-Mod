@@ -76,12 +76,15 @@ s
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-
+	maven {
+	        url 'https://maven.blakesmods.com'
+	    }
 }
 
 dependencies {
 
     minecraft 'net.minecraftforge:forge:1.18.1-39.0.64'
+    implementation 'com.blakebr0.cucumber:Cucumber:<minecraft_version>-<mod_version>'
 
 }
 

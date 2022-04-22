@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import com.kingcast255.hextechmod.common.block.entity.ArcanePedestalBlockEntity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -84,7 +85,7 @@ public class ArcanePedestalBlock extends BaseEntityBlock {
 	            
 
 	            if (!slot.isEmpty()) {
-	                var item = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), slot);
+	                var item = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), slot.copy());
 	                item.setNoPickUpDelay();
 	                level.addFreshEntity(item);
 	                inventory.setStackInSlot(0, ItemStack.EMPTY);
@@ -93,14 +94,11 @@ public class ArcanePedestalBlock extends BaseEntityBlock {
 
 	                if (slot.isEmpty() && !held.isEmpty()) {
 	                    inventory.setStackInSlot(0, new ItemStack(player.getItemInHand(hand).getItem(), 1));
+	                    if (slot.hasTag()) {
+	                    	player.sendMessage(new TextComponent("NBT Detected"), player.getUUID());
+	                    }
 	                    player.getItemInHand(hand).shrink(1);
 	                    level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
-	                } else if (!slot.isEmpty()) {
-	                    var item = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), slot);
-
-	                    item.setNoPickUpDelay();
-	                    level.addFreshEntity(item);
-	                    inventory.setStackInSlot(0, ItemStack.EMPTY);
 	                }
 	            }
 	        }
