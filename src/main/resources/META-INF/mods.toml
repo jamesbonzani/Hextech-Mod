@@ -1,0 +1,41 @@
+
+modLoader="javafml" #mandatory
+
+loaderVersion="[39,)"
+
+license="None"
+
+[[mods]]
+
+modId="hextechmod" 
+
+version="${file.jarVersion}" #mandatory
+
+displayName="Hextech Mod" #mandatory
+
+logoFile="examplemod.png" #optional
+
+credits="kingcast255" #optional
+
+authors="kingcast255" #optional
+
+description='''
+
+Description 
+
+'''
+
+[[dependencies.hextechmod]] #optional
+   
+    modId="forge" #mandatory
+   
+    mandatory=true #mandatory
+    versionRange="[39,)" #mandatory
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.hextechmod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.1,1.19)"
+    ordering="NONE"
+    side="BOTH"

@@ -1,0 +1,6 @@
+{
+"parent": "item/handheld",
+"textures": {
+		"layer0": "hextechmod:item/hextech_gauntlet_charged"
+}
+}
