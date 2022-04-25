@@ -18,11 +18,28 @@ import net.minecraftforge.items.ItemStackHandler;
 public class ArcanePedestalBlockEntity extends BlockEntity {
 	
 	
-	private final BaseItemStackHandler inventory;
+	private final ItemStackHandler itemHandler;
+	private float rotation;
 
 	public ArcanePedestalBlockEntity(BlockPos p_155229_, BlockState p_155230_) {
 		super(ModBlockEntities.ARCANE_PEDESTAL.get(), p_155229_, p_155230_);
-		this.inventory = createInventoryHandler(this::markDirtyAndDispatch);
+		itemHandler = new ItemStackHandler(1);
+		rotation = 0f;
+	}
+	
+	
+	
+	
+	public void addRotation(float value) {
+		this.rotation += value;
+		if (this.rotation > 360) {
+			this.rotation -= 360;
+		}
+	}
+	
+	
+	public float getRotation() {
+		return this.rotation;
 	}
 	
 	
@@ -66,8 +83,8 @@ public class ArcanePedestalBlockEntity extends BlockEntity {
 	
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
-		tag.put("inventory", itemHandler.serializeNBT());
-		super.saveAdditional(tag);
+		 tag.put("inventory", itemHandler.serializeNBT());
+		 super.saveAdditional(tag);
 	}
 	
 	
