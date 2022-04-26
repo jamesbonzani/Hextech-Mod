@@ -25,6 +25,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.items.ItemStackHandler;
 
 
 public class ArcanePedestalBlock extends BaseEntityBlock {
@@ -77,26 +78,23 @@ public class ArcanePedestalBlock extends BaseEntityBlock {
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
 			InteractionHand hand, BlockHitResult result) {
 		 
-		  var tile = level.getBlockEntity(pos);
+		  BlockEntity tile = level.getBlockEntity(pos);
 
 	        if (tile instanceof ArcanePedestalBlockEntity altar) {
-	            var inventory = altar.getInventory();
-	            var slot = inventory.getStackInSlot(0);
-	            
+	            ItemStackHandler inventory = altar.getInventory();
+	            ItemStack slot = inventory.getStackInSlot(0);
 
 	            if (!slot.isEmpty()) {
-	                var item = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), slot.copy());
+	                ItemEntity item = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), slot.copy());
 	                item.setNoPickUpDelay();
 	                level.addFreshEntity(item);
 	                inventory.setStackInSlot(0, ItemStack.EMPTY);
 	            } else {
-	                var held = player.getItemInHand(hand);
+	                ItemStack held = player.getItemInHand(hand);
 
 	                if (slot.isEmpty() && !held.isEmpty()) {
-	                    inventory.setStackInSlot(0, new ItemStack(player.getItemInHand(hand).getItem(), 1));
-	                    if (slot.hasTag()) {
-	                    	player.sendMessage(new TextComponent("NBT Detected"), player.getUUID());
-	                    }
+	                    inventory.setStackInSlot(0, player.getItemInHand(hand).copy());
+						slot.setCount(1);
 	                    player.getItemInHand(hand).shrink(1);
 	                    level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
 	                }
