@@ -29,11 +29,13 @@ public class ArcanePedestalBlockEntity extends BlockEntity {
 	
 	
 	
-	
 	public void addRotation(float value) {
 		this.rotation += value;
 		if (this.rotation > 360) {
 			this.rotation -= 360;
+		}
+		if (this.rotation < 0){
+			this.rotation += 360;
 		}
 	}
 	
@@ -46,8 +48,6 @@ public class ArcanePedestalBlockEntity extends BlockEntity {
 	private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 	
 
-	
-	
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {

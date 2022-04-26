@@ -48,9 +48,6 @@ public class ArcanePedestalBlock extends BaseEntityBlock {
 			CollisionContext p_60558_) {
 		return SHAPE;
 	}
-
-
-
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new ArcanePedestalBlockEntity(pos, state);
@@ -60,8 +57,9 @@ public class ArcanePedestalBlock extends BaseEntityBlock {
 	public RenderShape getRenderShape(BlockState p_49232_) {
 		return RenderShape.MODEL;
 	}
-	
-	
+
+
+
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newstate,
 			boolean isMoving) {
@@ -84,17 +82,21 @@ public class ArcanePedestalBlock extends BaseEntityBlock {
 	            ItemStackHandler inventory = altar.getInventory();
 	            ItemStack slot = inventory.getStackInSlot(0);
 
+				//Check if pedestal has an item
 	            if (!slot.isEmpty()) {
 	                ItemEntity item = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), slot.copy());
 	                item.setNoPickUpDelay();
 	                level.addFreshEntity(item);
-	                inventory.setStackInSlot(0, ItemStack.EMPTY);
-	            } else {
+					inventory.setStackInSlot(0, ItemStack.EMPTY);
+					}
+				//Pedestal is empty
+				else {
 	                ItemStack held = player.getItemInHand(hand);
-
+				//Check if player has item in hand
 	                if (slot.isEmpty() && !held.isEmpty()) {
+						//Move 1 of item in hand to pedestal
 	                    inventory.setStackInSlot(0, player.getItemInHand(hand).copy());
-						slot.setCount(1);
+						inventory.getStackInSlot(0).setCount(1);
 	                    player.getItemInHand(hand).shrink(1);
 	                    level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
 	                }
