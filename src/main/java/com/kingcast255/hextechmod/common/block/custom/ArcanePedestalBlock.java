@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 import com.kingcast255.hextechmod.common.block.entity.ArcanePedestalBlockEntity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;

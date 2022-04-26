@@ -24,6 +24,8 @@ public class ItemInit {
  
 	public static final RegistryObject<Item> HEXTECH_GAUNTLET = register("hextech_gauntlet", () -> new HextechGauntletItem(new Item.Properties().tab(HextechMod.HEXTECH_TAB).stacksTo(1)));
 	
+	public static final RegistryObject<Item> BRONZE_INGOT = register("bronze_ingot", () -> new Item(new Item.Properties().tab(HextechMod.HEXTECH_TAB)));
+	public static final RegistryObject<Item> BRONZE_NUGGET = register("bronze_nugget", () -> new Item(new Item.Properties().tab(HextechMod.HEXTECH_TAB)));
 	
 	
 	

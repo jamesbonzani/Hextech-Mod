@@ -4,5 +4,7 @@
 	"block.hextechmod.hex_ore": "Hex Ore",
 	"item.hextechmod.hextech_gauntlet": "Hextech Gauntlet",
 	"block.hextechmod.hextech_pedestal": "Hextech Pedestal",
-	"block.hextechmod.arcane_pedestal": "Arcane Pedestal"
+	"block.hextechmod.arcane_pedestal": "Arcane Pedestal",
+	"item.hextechmod.bronze_ingot": "Bronze Ingot",
+	"item.hextechmod.bronze_nugget": "Bronze Nugget"
 }
