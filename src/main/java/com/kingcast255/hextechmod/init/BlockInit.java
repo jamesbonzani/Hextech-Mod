@@ -22,7 +22,9 @@ public class BlockInit {
 	public static final RegistryObject<Block> HEX_ORE = registerBlock("hex_ore", () -> new HexOreBlock(BlockBehaviour.Properties.of(Material.STONE).strength(10f, 10f)));
 	//public static final RegistryObject<Block> HEXTECH_PEDESTAL = registerBlock("hextech_pedestal", () -> new HextechPedestalBlock(BlockBehaviour.Properties.of(Material.STONE)));
 	public static final RegistryObject<Block> ARCANE_PEDESTAL = registerBlock("arcane_pedestal", () -> new ArcanePedestalBlock(BlockBehaviour.Properties.of(Material.STONE)));
-	
+	public static final RegistryObject<Block> BRONZE_BLOCK = registerBlock("bronze_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL)));
+
+
 	private static <T extends Block> RegistryObject<T> registerBlock(final String name, final Supplier<? extends T> block)	{
 		return BLOCKS.register(name, block);
 		

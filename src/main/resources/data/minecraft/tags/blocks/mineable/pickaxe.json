@@ -1,7 +1,9 @@
 {
 	"replace": false,
 	"values": [
-		"hextechmod:hex_ore"
+		"hextechmod:hex_ore",
+		"hextechmod:bronze_block",
+		"hextechmod:arcane_pedestal"
 	]
 
 }

@@ -40,8 +40,8 @@ public class ItemInit {
 	
 	public static final RegistryObject<BlockItem> HEX_ORE = register("hex_ore", () -> new BlockItem(BlockInit.HEX_ORE.get(),new Item.Properties().tab(HextechMod.HEXTECH_TAB)));
 	//public static final RegistryObject<BlockItem> HEXTECH_PEDESTAL = register("hextech_pedestal",  () -> new BlockItem(BlockInit.HEXTECH_PEDESTAL.get(),new Item.Properties().tab(HextechMod.HEXTECH_TAB)));
-	public static final RegistryObject<BlockItem> ARCANE_PEDESTAL = register("arcane_pedestal",  () -> new BlockItem(BlockInit.ARCANE_PEDESTAL.get(),new Item.Properties().tab(HextechMod.HEXTECH_TAB)));
-	
+	public static final RegistryObject<BlockItem> ARCANE_PEDESTAL = register("arcane_pedestal",  () -> new BlockItem(BlockInit.ARCANE_PEDESTAL.get(), new Item.Properties().tab(HextechMod.HEXTECH_TAB)));
+	public static final RegistryObject<BlockItem> BRONZE_BLOCK = register("bronze_block", ()-> new BlockItem(BlockInit.BRONZE_BLOCK.get(), new Item.Properties().tab(HextechMod.HEXTECH_TAB)));
 	
 	
 	

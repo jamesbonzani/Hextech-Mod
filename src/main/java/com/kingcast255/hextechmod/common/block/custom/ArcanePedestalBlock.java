@@ -30,7 +30,7 @@ import net.minecraftforge.items.ItemStackHandler;
 public class ArcanePedestalBlock extends BaseEntityBlock {
 
 	public ArcanePedestalBlock(Properties p_49795_) {
-		super(p_49795_.noOcclusion());
+		super(p_49795_.noOcclusion().destroyTime(10f));
 		
 		
 	}
