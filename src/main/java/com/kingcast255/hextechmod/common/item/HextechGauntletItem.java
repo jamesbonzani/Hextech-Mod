@@ -8,15 +8,22 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 
 public class HextechGauntletItem extends Item {
@@ -67,7 +74,7 @@ public class HextechGauntletItem extends Item {
 			setFullyCharged(stack);
 			
 		}
-		//player.sendMessage(new TextComponent(""+x), player.getUUID());
+
 		
 	}
 	
@@ -89,12 +96,7 @@ public class HextechGauntletItem extends Item {
 	
 	
 	public void setFullyCharged(ItemStack stack) {
-		
-		CompoundTag data = new CompoundTag();
-		data.putBoolean("hextechmod.charged", true);
-		
-		stack.setTag(data);
-		
+		stack.getTag().putBoolean("hextechmod.charged", true);
 	}
 	
 	
@@ -104,137 +106,11 @@ public class HextechGauntletItem extends Item {
 		stack.setTag(empty);
 		
 	}
-	
-	
-	
-
-	
-	@Override
-	public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity ent) {
-		
-		
-		if(ent instanceof Player) {
-			Player player = (Player)ent;
-			
-
-		if (player != null) {
-
-			player.sendMessage(new TextComponent("Charged." ), player.getUUID());
-		}
-	
-		if(!level.isClientSide()) {
-			BlockHitResult result = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY);
-			
-			//player.sendMessage(Component.nullToEmpty(pos.toString()), Util.NIL_UUID);
-			
-			//level.setBlockAndUpdate(result.getBlockPos(), Blocks.AIR.defaultBlockState());
-			Direction dir = result.getDirection();
-			//player.sendMessage(Component.nullToEmpty(dir.toString()), Util.NIL_UUID);
-			BlockPos pos = result.getBlockPos();
-			BlockPos[] group = new BlockPos[9];
-			switch(dir) {
-			case NORTH:
-				group[0] = pos;
-				group[1] = pos.above();
-				group[2] = pos.below();
-				group[3] = pos.east();
-				group[4] = pos.east().above();
-				group[5] = pos.east().below();
-				group[6] = pos.west();
-				group[7] = pos.west().above();
-				group[8] = pos.west().below();
-				break;
-			case EAST:
-				group[0] = pos;
-				group[1] = pos.above();
-				group[2] = pos.below();
-				group[3] = pos.north();
-				group[4] = pos.north().above();
-				group[5] = pos.north().below();
-				group[6] = pos.south();
-				group[7] = pos.south().above();
-				group[8] = pos.south().below();
-				break;
-			case WEST:
-				group[0] = pos;
-				group[1] = pos.above();
-				group[2] = pos.below();
-				group[3] = pos.north();
-				group[4] = pos.north().above();
-				group[5] = pos.north().below();
-				group[6] = pos.south();
-				group[7] = pos.south().above();
-				group[8] = pos.south().below();
-				break;
-			case SOUTH:
-				group[0] = pos;
-				group[1] = pos.above();
-				group[2] = pos.below();
-				group[3] = pos.east();
-				group[4] = pos.east().above();
-				group[5] = pos.east().below();
-				group[6] = pos.west();
-				group[7] = pos.west().above();
-				group[8] = pos.west().below();
-				break;
-			case UP:
-				group[0] = pos;
-				group[1] = pos.north();
-				group[2] = pos.south();
-				group[3] = pos.east();
-				group[4] = pos.west();
-				group[5] = pos.east().south();
-				group[6] = pos.south().west();
-				group[7] = pos.west().north();
-				group[8] = pos.north().east();
-				break;
-			case DOWN:
-				group[0] = pos;
-				group[1] = pos.north();
-				group[2] = pos.south();
-				group[3] = pos.east();
-				group[4] = pos.west();
-				group[5] = pos.east().south();
-				group[6] = pos.south().west();
-				group[7] = pos.west().north();
-				group[8] = pos.north().east();
-				break;
-				
-			
-			default:
-				group = null;
-				break;
-			}
-			if (group != null) {
-			for (BlockPos p : group) {
-					if(level.getBlockState(p).getDestroySpeed(level, p) > 0.0F) {
-						level.destroyBlock(p, canRepair);
-					}	}
-				}
-			level.broadcastEntityEvent(player, (byte) 26);
-			
-			
-						
-			
-			
-			
-				}	
-		
-		}
-		return super.finishUsingItem(stack, level, ent);
-	}
-	
-	
 	@Override
 	public int getItemStackLimit(ItemStack stack) {
-		
 		return 1;
 	}
-	
-	
-	
-	
-	
+
 	//releasing right click boosts the player in the direction they look
 	@Override
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity ent, int x) {
@@ -249,6 +125,9 @@ public class HextechGauntletItem extends Item {
 		if(f == 2) {
 			Vec3 vec = player.getLookAngle().normalize();
 			player.push(vec.x*f, vec.y*f, vec.z*f);
+			CompoundTag tag = new CompoundTag();
+			stack.getTag().putBoolean("hextechmod.player_pushed",true);
+
 			removeFullyCharged(stack);
 			
 			if (!level.isClientSide) {
@@ -258,10 +137,33 @@ public class HextechGauntletItem extends Item {
 		}
 		
 	}
-	
-	
-	
-	   public UseAnim getUseAnimation(ItemStack p_40678_) {
+
+	/*
+	@Override
+	public void inventoryTick(ItemStack stack, Level level, Entity ent, int x, boolean b) {
+		if (!level.isClientSide && ent instanceof Player) {
+			if (stack.hasTag() && stack.getTag().get("hextechmod.player_pushed") != null) {
+				if (stack.getTag().getBoolean("hextechmod.player_pushed")) {
+					if (((Player) ent).isOnGround()) {
+						stack.getTag().putBoolean("hextechmod.player_pushed", false);
+					} else {
+						java.util.List<VoxelShape> collisions = level.getEntityCollisions(
+								ent, new AABB(ent.getX() - 10D, ent.getY() - 10D, ent.getZ() - 10D,
+										ent.getX() + 10D, ent.getY() + 10D, ent.getZ() + 10D)
+						);
+						for (VoxelShape vshape : collisions) {
+							if (!vshape.isEmpty()) {
+								((Player) ent).sendMessage(new TextComponent("Collided with Entity"), ent.getUUID());
+							}
+						}
+
+					}
+				}
+			}
+		}
+	}
+*/
+	public UseAnim getUseAnimation(ItemStack p_40678_) {
 		      return UseAnim.BOW;
 		   }
 	
