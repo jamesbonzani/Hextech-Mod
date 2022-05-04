@@ -1,6 +1,7 @@
 package com.kingcast255.hextechmod;
 
 import com.kingcast255.hextechmod.common.block.entity.ModBlockEntities;
+import com.kingcast255.hextechmod.common.entity.ModEntityTypes;
 import com.kingcast255.hextechmod.common.util.ModItemProperties;
 import com.kingcast255.hextechmod.init.BlockInit;
 import com.kingcast255.hextechmod.init.ItemInit;
@@ -41,6 +42,9 @@ public class HextechMod {
 		
 		ModBlockEntities.BLOCK_ENTITIES.register(bus);
 		MinecraftForge.EVENT_BUS.register(this);
+
+		ModEntityTypes.register(bus);
+
 
 		bus.addListener(this::clientSetup);
 		

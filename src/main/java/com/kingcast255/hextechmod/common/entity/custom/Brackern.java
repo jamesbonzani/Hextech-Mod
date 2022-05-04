@@ -1,4 +1,4 @@
-package com.kingcast255.hextechmod.common.entity;
+package com.kingcast255.hextechmod.common.entity.custom;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

@@ -1,6 +1,8 @@
 package com.kingcast255.hextechmod.common.item;
 
 
+import com.kingcast255.hextechmod.common.entity.ModEntityTypes;
+import com.kingcast255.hextechmod.common.entity.custom.PlayerProjectile;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -113,8 +115,9 @@ public class HextechGauntletItem extends Item {
 		if(f == 2) {
 			Vec3 vec = player.getLookAngle().normalize();
 			player.push(vec.x*f, vec.y*f, vec.z*f);
-			CompoundTag tag = new CompoundTag();
-			
+			PlayerProjectile proj = new PlayerProjectile(ModEntityTypes.PLAYER_PROJECTILE.get(),level);
+			proj.setOwner(player);
+
 
 			removeFullyCharged(stack);
 			
